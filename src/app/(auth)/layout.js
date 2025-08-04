@@ -2,7 +2,7 @@ import React from 'react'
 
 const authLayout = ({children}) => {
   return (
-    <div className='flex justify-center pt-20'>
+    <div className='flex justify-center mt-20 pt-20'>
       {children}
     </div>
   )

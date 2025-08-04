@@ -17,13 +17,13 @@ import { checkUser } from '@/lib/checkUser'
 const Header = async () => {
     await checkUser();
     return (
-        <div className='container fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b py-2'>
+        <div className='fixed top-0 w-full bg-white/80 backdrop-blur-md z-50  my-auto'>
 
             <nav className='container mx-auto px-2 sm:px-4 flex items-center justify-between sm:justify-between gap-2 sm:gap-0 h-16'>
 
                 <Link href="/">
                     <Image
-                        src={"/logo.png"}
+                        src={"/logo2.png"}
                         alt='PayNest Logo'
                         height={60}
                         width={200}

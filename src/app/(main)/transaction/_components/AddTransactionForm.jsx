@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { transactionSchema } from '@/app/lib/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useState } from 'react'
@@ -18,10 +18,14 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import ReciptScanner from './ReciptScanner'
 import { Loader2 } from 'lucide-react'
+
+
 const AddTransactionForm = ({ accounts, categories, editMode = false, initialData = null }) => {
   const router = useRouter()
-  const searchParams =   useSearchParams()
-  const editId = searchParams.get("edit");
+
+  const searchParams = useSearchParams()
+  const editId = searchParams?.get("edit");
+
   const [isFormVisible, setIsFormVisible] = useState(false)
   const [completedFields, setCompletedFields] = useState({})
 
@@ -45,7 +49,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
           type: "EXPENSE",
           amount: "",
           description: "",
-          accountId: accounts.find((ac) => ac.isDefault)?.id,
+          accountId: accounts.data.find((ac) => ac.isDefault)?.id,
           date: new Date(),
           isRecurring: false,
         },
@@ -134,21 +138,23 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 lg:px-8">
       <div className="mx-auto w-full max-w-xs xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-4xl">
 
-        {/* AI recipt scanner */}
 
-           {!editMode && <ReciptScanner onScanComplete={handleScanComplete} />}
+        <div>
 
-        {/* Header - Mobile Optimized */}
+          {!editMode && <ReciptScanner onScanComplete={handleScanComplete} />}
+        </div>
+
+
         <div className="mb-4 sm:mb-6 md:mb-8">
-          <h1 className="text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl">
+          <h1 className="text-xl text-center mt-4 font-bold text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl">
             Add Transaction
           </h1>
-          <p className="mt-1 text-sm text-gray-600 sm:text-base md:mt-2">
+          <p className="mt-1 text-center text-sm text-gray-600 sm:text-base md:mt-2">
             Create a new income or expense transaction
           </p>
         </div>
 
-        {/* Main Form Card */}
+
         <div className="w-full">
           <div
             className={`overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-200 transition-all duration-700 ease-out sm:rounded-2xl sm:shadow-xl ${isFormVisible
@@ -157,7 +163,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
               }`}
           >
             <form className="space-y-4 p-4 sm:space-y-6 sm:p-6 md:space-y-8 md:p-8" onSubmit={handleSubmit(onSubmit)}>
-              {/* Transaction Type */}
+
               <div
                 className={`space-y-2 transition-all duration-500 ease-out delay-100 sm:space-y-3 ${isFormVisible ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
                   }`}
@@ -193,7 +199,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                 )}
               </div>
 
-              {/* Amount and Account Row - Responsive Grid */}
+
               <div
                 className={`grid gap-4 sm:gap-6 md:grid-cols-2 transition-all duration-500 ease-out delay-200 ${isFormVisible ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
                   }`}
@@ -274,7 +280,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
               </div>
 
               {/* Category */}
-              <div
+              {/* <div
                 className={`space-y-2 transition-all duration-500 ease-out delay-300 sm:space-y-3 ${isFormVisible ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
                   }`}
               >
@@ -307,13 +313,16 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     ))}
                   </SelectContent>
                 </Select>
+                
+
+
                 {errors.category && (
                   <p className="text-sm text-red-500 animate-shake">{errors.category.message}</p>
                 )}
-              </div>
+              </div> */}
 
               {/* Date */}
-              <div
+              {/* <div
                 className={`space-y-2 transition-all duration-500 ease-out delay-400 sm:space-y-3 ${isFormVisible ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
                   }`}
               >
@@ -352,7 +361,106 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                 {errors.date && (
                   <p className="text-sm text-red-500 animate-shake">{errors.date.message}</p>
                 )}
+              </div> */}
+              <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-6 w-full">
+                {/* Category */}
+                <div className="w-full sm:w-1/2">
+                  <div
+                    className={`space-y-2 transition-all duration-500 ease-out delay-300 sm:space-y-3 ${isFormVisible ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
+                      }`}
+                  >
+                    <label className="flex items-center text-sm font-semibold text-gray-700 sm:text-base">
+                      <Tag
+                        className={`mr-2 h-4 w-4 transition-colors duration-300 ${completedFields.category ? 'text-green-500' : 'text-gray-500'
+                          }`}
+                      />
+                      Category
+                      {completedFields.category && (
+                        <CheckCircle className="ml-2 h-4 w-4 text-green-500 animate-bounce" />
+                      )}
+                    </label>
+
+                    <Select
+                      onValueChange={(value) => setValue("category", value)}
+                      defaultValue={getValues("category")}
+                    >
+                      <SelectTrigger
+                        className={`h-10 border-gray-300 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200 hover:border-gray-400 sm:h-12 ${completedFields.category ? 'ring-2 ring-green-200 border-green-300' : ''
+                          }`}
+                      >
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent className="animate-in slide-in-from-top-2 duration-200 max-h-60 overflow-y-auto">
+                        {filteredCategories.map((category, index) => (
+                          <SelectItem
+                            key={category.id}
+                            value={category.id}
+                            className="transition-colors duration-150 hover:bg-blue-50"
+                            style={{ animationDelay: `${index * 50}ms` }}
+                          >
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {errors.category && (
+                      <p className="text-sm text-red-500 animate-shake">
+                        {errors.category.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Date */}
+                <div className="w-full sm:w-1/2 mt-4 sm:mt-0">
+                  <div
+                    className={`space-y-2 transition-all duration-500 ease-out delay-400 sm:space-y-3 ${isFormVisible ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
+                      }`}
+                  >
+                    <label className="flex items-center text-sm font-semibold text-gray-700 sm:text-base">
+                      <CalendarIcon
+                        className={`mr-2 h-4 w-4 transition-colors duration-300 ${completedFields.date ? 'text-green-500' : 'text-gray-500'
+                          }`}
+                      />
+                      Date
+                      {completedFields.date && (
+                        <CheckCircle className="ml-2 h-4 w-4 text-green-500 animate-bounce" />
+                      )}
+                    </label>
+
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={`w-full h-10 justify-start text-left font-normal border-gray-300 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200 hover:border-gray-400 hover:shadow-sm sm:h-12 ${completedFields.date ? 'ring-2 ring-green-200 border-green-300' : ''
+                            }`}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                          <span className="truncate">
+                            {date ? format(date, "PPP") : <span className="text-gray-400">Pick a date</span>}
+                          </span>
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 animate-in slide-in-from-top-2 duration-200" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          onSelect={(date) => setValue("date", date)}
+                          disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                          initialFocus
+                          className="transition-all duration-200"
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    {errors.date && (
+                      <p className="text-sm text-red-500 animate-shake">{errors.date.message}</p>
+                    )}
+                  </div>
+                </div>
               </div>
+
 
               {/* Description */}
               <div
@@ -432,19 +540,25 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
               </div>
 
               {/* Action Buttons - Mobile Optimized */}
+
               <div
-                className={`flex flex-col gap-3 pt-4 sm:flex-row sm:pt-6 transition-all duration-500 ease-out delay-700 ${isFormVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                  }`}
+                className={`flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6 transition-all duration-500 ease-out delay-700
+    ${isFormVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
               >
                 <Button
                   type="button"
                   variant="outline"
-                  className="flex-1 h-10 border-gray-300 hover:bg-gray-50 transition-all duration-200 hover:scale-105 hover:shadow-md sm:h-12"
+                  className="sm:flex-1 w-full sm:w-auto h-10 sm:h-12 border-gray-300 hover:bg-gray-50 transition-all duration-200 hover:scale-105 hover:shadow-md"
                   onClick={() => router.back()}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full" disabled={transactionLoading}>
+
+                <Button
+                  type="submit"
+                  className="sm:flex-1 w-full sm:w-auto h-10 sm:h-12 transition-all duration-200 hover:scale-105 hover:shadow-md"
+                  disabled={transactionLoading}
+                >
                   {transactionLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -457,6 +571,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                   )}
                 </Button>
               </div>
+
             </form>
           </div>
         </div>

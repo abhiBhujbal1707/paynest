@@ -3,11 +3,12 @@ import { getUserAccounts } from '../../../../../actions/dashboard'
 import { defaultCategories } from '@/data/categories'
 import AddTransactionForm from '../_components/AddTransactionForm'
 import { getTransaction } from '../../../../../actions/transaction'
-const AddTransaction = async ({searchParams}) => {
+const AddTransaction = async ({ searchParams }) => {
     const accounts = await getUserAccounts()
-    const editId = searchParams?.edit
+    const _searchParams = await searchParams;
+    const editId = _searchParams?.edit
     let initialData = null;
-    if(editId){
+    if (editId) {
         const transaction = await getTransaction(editId)
         initialData = transaction;
     }

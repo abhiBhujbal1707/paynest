@@ -262,7 +262,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                           </div>
                         </SelectItem>
                       ))}
-                      <CreateAccountDrawer>
+                      {/* <CreateAccountDrawer>
                         <Button
                           variant="ghost"
                           className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-all duration-200 hover:scale-105"
@@ -270,7 +270,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                           <Plus className="mr-2 h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
                           Create New Account
                         </Button>
-                      </CreateAccountDrawer>
+                      </CreateAccountDrawer> */}
                     </SelectContent>
                   </Select>
                   {errors.accountId && (

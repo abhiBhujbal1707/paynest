@@ -123,11 +123,11 @@ export const processRecurringTransaction = inngest.createFunction(
   {
     id: "process-recurring-transaction",
     name: "Process Recurring Transaction",
-    throttle: {
-      limit: 10, // Process 10 transactions
-      period: "1m", // per minute
-      key: "event.data.userId", // Throttle per user
-    },
+    // throttle: {
+    //   limit: 10, // Process 10 transactions
+    //   period: "1m", // per minute
+    //   key: "event.data.userId", // Throttle per user
+    // },
   },
   { event: "transaction.recurring.process" },
   async ({ event, step }) => {
